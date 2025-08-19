@@ -1,25 +1,62 @@
-from domain.models.itodo_repository import ITodoRepository
-from domain.models.todo import Todo
+from domain.models.iuser_repository import IUserRepository
+from domain.models.user import User
 from typing import List, Optional
 from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from config import Config
-from sqlalchemy import Column, Integer, String, DateTime,Boolean
+from sqlalchemy import Column, Integer, String, DateTime
 from infrastructure.databases import Base
-
+from sqlalchemy.orm import Session
+from infrastructure.models.user_model import UserModel
+from infrastructure.databases.mssql import session
 load_dotenv()
 
-class UserModel(Base):
-    __tablename__ = 'flask_user'
-    __table_args__ = {'extend_existing': True}  # Thêm dòng này
+class UserRepository(IUserRepository):
+    def __init__(self, session: Session = session):
+        self.session = session
 
-    id = Column(Integer, primary_key=True)
-    user_name = Column(String(18), nullable=False)
-    password = Column(String(18), nullable=False)
-    description = Column(String(255), nullable=True)
-    status = Column(Boolean, nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime) 
-    
+    def add(self, user: User) -> UserModel:
+        try:
+            #Manual mapping from User to UserModel
+            user = UserModel(
+                username = user.username,
+                password = user.password,
+                role = user.role,
+                status = user.status,
+                created_at = user.created_at,
+                updated_at = user.created_at
+            )
+            self.session.add(user)
+            self.session.commit()
+            self.session.refresh(user)
+            return user
+        except Exception as e:
+            self.session.rollback()
+            raise ValueError('User not found')
+
+    def get_by_id(self, user_id: int) -> Optional[UserModel]:
+        return self.session.query(UserModel).filter_by(id=user_id).first()
+
+    def list(self) -> List[User]:
+        return self.session.query(UserModel).all()
+
+    def update(self, user: UserModel) -> UserModel:
+        try:
+            self.session.merge(user)
+            self.session.commit()
+            return user
+        except Exception as e:
+            self.session.rollback()
+            raise ValueError('User not found')
+        finally:
+            self.session.close()
+
+    def delete(self, user_id: int) -> None:
+        user = self.get_by_id(user_id)
+        if user:
+            self.session.delete(user)
+            self.session.commit()
+        else:
+            raise ValueError('User not found')

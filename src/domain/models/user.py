@@ -1,12 +1,10 @@
-from sqlalchemy import Column, Integer, String, DateTime, Boolean
-from infrastructure.databases.base import Base
-
 class User:
-    
-    def __innit__(self, user_name: str, password: str, description: str = None, status: bool = True):
-        self.user_name = user_name
+    def __init__(self, id: int, username: str, role: str, password: str, status: bool = True):
+        self.id = id
+        self.username = username
         self.password = password
-        self.description = description
+        self.role = role
         self.status = status
-        self.created_at = None
+        self.created_at = None  
         self.updated_at = None
+
