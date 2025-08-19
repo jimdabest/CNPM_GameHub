@@ -62,6 +62,7 @@ class TodoRepository(ITodoRepository):
         try:
              #Manual mapping from Todo to TodoModel
             todo = TodoModel(
+                id = todo.id,
                 title=todo.title,
                 description=todo.description,
                 status=todo.status,
