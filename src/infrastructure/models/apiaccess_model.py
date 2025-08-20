@@ -1,0 +1,22 @@
+from sqlalchemy import Column, Integer, String, DateTime, Boolean , ForeignKey, Numeric
+from sqlalchemy.orm import relationship
+from datetime import datetime
+from infrastructure.databases.base import Base
+
+class ApiaccessModel(Base):
+    __tablename__ = 'apiaccess'
+    __table_args__ = {'extend_existing': True}  # Thêm dòng này
+
+    id = Column(Integer, primary_key=True)
+    # dev_id = Column(Integer, ForeignKey('dev.id'), nullable=False)
+    # dev = relationship("DevModel", back_populates="assets")
+    # thêm này trong dev 
+    # apiaccess = relationship("ApiaccessModel", back_populates="designer")
+
+
+    api_type = Column(String(50), nullable=False)   
+    api_key = Column(String(128), unique=True)     
+    sdk_link = Column(String(255))
+    request_date = Column(DateTime, nullable=False, default=datetime.utcnow)
+    status = Column(String(30), nullable=False, default="pending")
+    
