@@ -8,10 +8,10 @@ class ApiaccessModel(Base):
     __table_args__ = {'extend_existing': True}  # Thêm dòng này
 
     id = Column(Integer, primary_key=True)
-    # dev_id = Column(Integer, ForeignKey('dev.id'), nullable=False)
-    # dev = relationship("DevModel", back_populates="assets")
+    # dev_id = Column(Integer, ForeignKey('developer.id'), nullable=False)
+    # dev = relationship("DeveloperModel", back_populates="apiaccess")
     # thêm này trong dev 
-    # apiaccess = relationship("ApiaccessModel", back_populates="designer")
+    # apiaccess = relationship("ApiaccessModel", back_populates="developer")
 
 
     api_type = Column(String(50), nullable=False)   
