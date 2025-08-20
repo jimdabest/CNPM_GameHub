@@ -7,7 +7,8 @@ class UserService:
     def __init__(self, user_repository: IUserRepository):
         self.user_repository = user_repository
     
-    def add_user(self, user: User) -> User:
+    def add_user(self, username: str, password: str,role: str, status: str, created_at, updated_at) -> User:
+        user = User(id=None, username=username, password=password, role=role, status=status, created_at=created_at, updated_at=updated_at)
         return self.user_repository.add(user)
     
     def get_user_by_id(self, user_id: int) -> Optional[User]:
@@ -16,7 +17,8 @@ class UserService:
     def list_users(self) -> List[User]:
         return self.user_repository.list()
     
-    def update_user(self, user: User) -> User:
+    def update_user(self, user_id: int, username: str, password: str, role: str, status:str, created_at, updated_at) -> User:
+        user = User(id=user_id, username=username, password=password, role=role, status=status, created_at=created_at, updated_at=updated_at)
         return self.user_repository.update(user)
     
     def delete_user(self, user_id: int) -> None:

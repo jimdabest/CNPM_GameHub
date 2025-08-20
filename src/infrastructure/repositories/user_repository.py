@@ -35,6 +35,8 @@ class UserRepository(IUserRepository):
         except Exception as e:
             self.session.rollback()
             raise ValueError('User not found')
+        finally:
+            self.session.close()
 
     def get_by_id(self, user_id: int) -> Optional[UserModel]:
         return self.session.query(UserModel).filter_by(id=user_id).first()
@@ -44,8 +46,19 @@ class UserRepository(IUserRepository):
 
     def update(self, user: UserModel) -> UserModel:
         try:
-            self.session.merge(user)
+               # Manual map User -> UserModel
+            user = UserModel(
+                id=user.id,
+                username=user.username,
+                password=user.password,
+                role=user.role,
+                status=user.status,
+                created_at=user.created_at,
+                updated_at=user.updated_at
+        )
+            merged = self.session.merge(user)
             self.session.commit()
+            self.session.refresh(merged)
             return user
         except Exception as e:
             self.session.rollback()

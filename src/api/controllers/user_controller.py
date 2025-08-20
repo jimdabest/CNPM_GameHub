@@ -86,9 +86,19 @@ def add_user():
                 $ref: '#/components/schemas/UserResponse'
     """
     data = request.get_json()
-    user = request_schema.load(data)
-    new_user = user_service.add_user(user)
-    return jsonify(response_schema.dump(new_user)), 201
+    errors = request_schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    now = datetime.utcnow()
+    todo = user_service.add_user(
+        username=data['username'],
+        password=data['password'],
+        role=data['role'],
+        status=data['status'],
+        created_at=now,
+        updated_at=now
+    )
+    return jsonify(response_schema.dump(todo)), 201  
 @bp.route('/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
     """
@@ -122,11 +132,18 @@ def update_user(user_id):
           description: User not found
     """
     data = request.get_json()
-    user = request_schema.load(data)
-    user.id = user_id
-    updated_user = user_service.update_user(user)
-    if updated_user is None:
-        return jsonify({'message': 'User not found'}), 404
+    errors = request_schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    user = user_service.update_user(
+        user_id=id,
+        username=data['username'],
+        password=data['password'],
+        role=data['role'],
+        status=data['status'],
+        created_at=datetime.utcnow(),
+        updated_at=datetime.utcnow(),
+    )
     return jsonify(response_schema.dump(updated_user)), 200
 
 @bp.route('/<int:user_id>', methods=['DELETE'])
