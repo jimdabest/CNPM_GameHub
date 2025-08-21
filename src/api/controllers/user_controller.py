@@ -144,7 +144,7 @@ def update_user(user_id):
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow(),
     )
-    return jsonify(response_schema.dump(updated_user)), 200
+    return jsonify(response_schema.dump(user)), 200
 
 @bp.route('/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):

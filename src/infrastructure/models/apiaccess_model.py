@@ -3,14 +3,15 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from infrastructure.databases.base import Base
 
-class ApiaccessModel(Base):
+class APIaccessModel(Base):
     __tablename__ = 'apiaccess'
     __table_args__ = {'extend_existing': True}  # Thêm dòng này
 
     id = Column(Integer, primary_key=True)
-    dev_id = Column(Integer, ForeignKey('developer.id'), nullable=False)
-    dev = relationship("DeveloperModel", back_populates="apiaccess")
-    
+    # dev_id = Column(Integer, ForeignKey('dev.id'), nullable=False)
+    # dev = relationship("DevModel", back_populates="assets")
+    # thêm này trong dev 
+    # apiaccess = relationship("ApiaccessModel", back_populates="designer")
 
 
     api_type = Column(String(50), nullable=False)   
@@ -19,3 +20,5 @@ class ApiaccessModel(Base):
     request_date = Column(DateTime, nullable=False, default=datetime.utcnow)
     status = Column(String(30), nullable=False, default="pending")
     
+    developer = relationship("DeveloperModel", back_populates="apiaccess")
+    admin = relationship("AdminModel", back_populates="apiaccess")

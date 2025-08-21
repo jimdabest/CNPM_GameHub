@@ -14,3 +14,5 @@ class game_model(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
+    
+

@@ -9,11 +9,11 @@ class DesignerModel(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     paymentinfo = Column(String(255), nullable=True)
-    user = relationship("UserModel", back_populates="designers")
-
-
 
 
 
  #các mối quan hệ
     assets = relationship("AssetModel", back_populates="designer")
+    user = relationship("UserModel", back_populates="designer")
+
+
