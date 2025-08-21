@@ -3,6 +3,7 @@ from apispec.ext.marshmallow import MarshmallowPlugin
 from apispec_webframeworks.flask import FlaskPlugin
 from api.schemas.todo import TodoRequestSchema, TodoResponseSchema
 from api.schemas.user import UserRequestSchema, UserResponseSchema
+from api.schemas.designer import DesignerRequestSchema, DesignerResponseSchema
 
 spec = APISpec(
     title="Todo API",
@@ -16,4 +17,7 @@ spec.components.schema("TodoRequest", schema=TodoRequestSchema)
 spec.components.schema("TodoResponse", schema=TodoResponseSchema)
 spec.components.schema("UserRequest", schema=UserRequestSchema)
 spec.components.schema("UserResponse", schema=UserResponseSchema)
+spec.components.schema("DesignerRequest", schema=DesignerRequestSchema)
+spec.components.schema("DesignerResponse", schema=DesignerResponseSchema)
+
 

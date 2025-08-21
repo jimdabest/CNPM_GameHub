@@ -12,4 +12,7 @@ class DeveloperModel(Base):
 
     # Quan hệ: mỗi dev thuộc 1 user, có thể có nhiều assets và games
     user = relationship("UserModel", back_populates="developer")
+    # thêm này trong dev 
+    apiaccess = relationship("ApiaccessModel", back_populates="developer")
+   
    

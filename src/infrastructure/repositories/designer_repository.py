@@ -1,0 +1,94 @@
+from domain.models.idesigner_repository import IDesignerRepository
+from domain.models.designer import Designer
+from typing import List, Optional
+from dotenv import load_dotenv
+import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+from config import Config
+from sqlalchemy import Column, Integer, String, DateTime
+from infrastructure.databases import Base
+from sqlalchemy.orm import Session
+from infrastructure.models.designer_model import DesignerModel
+from infrastructure.databases.mssql import session
+load_dotenv()
+
+class DesignerRepository(IDesignerRepository):
+    def __init__(self, session: Session = session):
+        self._designers = []
+        self._id_counter = 1
+        self.session = session
+
+    def add(self, designer: Designer) -> DesignerModel:
+        try:
+            # Manual mapping from Designer (domain) to DesignerModel (infra)
+            designer = DesignerModel(
+                # chỉnh các field cho khớp schema của DesignerModel
+                # ví dụ giữ nguyên pattern như Todo: title/description/status/created_at/updated_at
+                title=getattr(designer, "title", None),
+                description=getattr(designer, "description", None),
+                status=getattr(designer, "status", None),
+                created_at=getattr(designer, "created_at", None),
+                updated_at=getattr(designer, "updated_at", None),
+            )
+            self.session.add(designer)
+            self.session.commit()
+            self.session.refresh(designer)
+            return designer
+        except Exception as e:
+            self.session.rollback()
+            raise ValueError('Designer not found')
+        finally:
+            self.session.close()
+    
+    # def add(self, designer: Designer) -> Designer:
+    #     designer.id = self._id_counter
+    #     self._id_counter += 1
+    #     self._designers.append(designer)
+    #     return designer
+
+    def get_by_id(self, designer_id: int) -> Optional[DesignerModel]:
+        return self.session.query(DesignerModel).filter_by(id=designer_id).first()
+
+    # def list(self) -> List[Designer]:
+    #     self._designers
+    #     return self._designers
+    def list(self) -> List[DesignerModel]:
+        self._designers = session.query(DesignerModel).all()
+        # select * from designers
+        return self._designers
+
+    def update(self, designer: DesignerModel) -> DesignerModel:
+        try:
+            # Manual mapping from Designer to DesignerModel
+            designer = DesignerModel(
+                id=getattr(designer, "id", None),
+                title=getattr(designer, "title", None),
+                description=getattr(designer, "description", None),
+                status=getattr(designer, "status", None),
+                created_at=getattr(designer, "created_at", None),
+                updated_at=getattr(designer, "updated_at", None),
+            )
+            self.session.merge(designer)
+            self.session.commit()
+            return designer
+        except Exception as e:
+            self.session.rollback()
+            raise ValueError('Designer not found')
+        finally:
+            self.session.close()
+
+    def delete(self, designer_id: int) -> None:
+        # self._designers = [d for d in self._designers if d.id != designer_id]
+        try:
+            designer = self.session.query(DesignerModel).filter_by(id=designer_id).first()
+            if designer:
+                self.session.delete(designer)
+                self.session.commit()
+            else:
+                raise ValueError('Designer not found')
+        except Exception as e:
+            self.session.rollback()
+            raise ValueError('Designer not found')
+        finally:
+            self.session.close()
