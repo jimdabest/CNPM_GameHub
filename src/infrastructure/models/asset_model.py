@@ -8,10 +8,12 @@ class AssetModel(Base):
 
     id = Column(Integer, primary_key=True)
     designer_id = Column(Integer, ForeignKey('designer.id'), nullable=False)
-    designer = relationship("DesignerModel", back_populates="assets")
     name = Column(String(255), nullable=False)
     type = Column(String(50))
     price = Column(Numeric(10, 2), nullable=False, default=0)
     download_count = Column(Integer, nullable=False, default=0)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
+
+    designer = relationship("DesignerModel", back_populates="assets")
+    purchases = relationship("AssetPurchaseModel", back_populates="asset")

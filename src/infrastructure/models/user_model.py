@@ -16,7 +16,7 @@ class UserModel(Base):
 
     # Quan hệ 1-1 với player, developer, designer, admin
 
-    # player = relationship("PlayerModel", back_populates="user", uselist=False)
-    # developer = relationship("DeveloperModel", back_populates="user", uselist=False)
-    # designer = relationship("DesignerModel", back_populates="user", uselist=False)
-    # admin = relationship("AdminModel", back_populates="user", uselist=False)
+    player = relationship("PlayerModel", back_populates="user", uselist=False)
+    developer = relationship("DeveloperModel", back_populates="user", uselist=False)
+    designer = relationship("DesignerModel", back_populates="user", uselist=False)
+    admin = relationship("AdminModel", back_populates="user", uselist=False)
