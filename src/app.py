@@ -3,6 +3,8 @@ from api.swagger import spec
 from api.controllers.todo_controller import bp as todo_bp
 from api.controllers.user_controller import bp as user_bp
 from api.controllers.designer_controller import bp as designer_bp
+from api.controllers.developer_controller import bp as developer_bp
+from api.controllers.asset_purchases_controller import bp as asset_purchases_bp
 from api.middleware import middleware
 from api.responses import success_response
 from infrastructure.databases import init_db
@@ -19,6 +21,8 @@ def create_app():
     app.register_blueprint(todo_bp)
     app.register_blueprint(user_bp)
     app.register_blueprint(designer_bp)
+    app.register_blueprint(developer_bp)
+    app.register_blueprint(asset_purchases_bp)
     
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
@@ -42,7 +46,7 @@ def create_app():
     with app.test_request_context():
         for rule in app.url_map.iter_rules():
             # Thêm các endpoint khác nếu cần
-            if rule.endpoint.startswith(('todo.', 'course.', 'user.', 'designer.')):
+            if rule.endpoint.startswith(('todo.', 'course.', 'user.', 'designer.', 'developer.', 'asset_purchases.')):
                 view_func = app.view_functions[rule.endpoint]
                 print(f"Adding path: {rule.rule} -> {view_func}")
                 spec.path(view=view_func)

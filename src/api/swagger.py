@@ -4,7 +4,8 @@ from apispec_webframeworks.flask import FlaskPlugin
 from api.schemas.todo import TodoRequestSchema, TodoResponseSchema
 from api.schemas.user import UserRequestSchema, UserResponseSchema
 from api.schemas.designer import DesignerRequestSchema, DesignerResponseSchema
-
+from api.schemas.developer import DeveloperRequestSchema, DeveloperResponseSchema
+from api.schemas.asset_purchases import AssetPurchaseRequestSchema, AssetPurchaseResponseSchema
 spec = APISpec(
     title="Todo API",
     version="1.0.0",
@@ -19,5 +20,8 @@ spec.components.schema("UserRequest", schema=UserRequestSchema)
 spec.components.schema("UserResponse", schema=UserResponseSchema)
 spec.components.schema("DesignerRequest", schema=DesignerRequestSchema)
 spec.components.schema("DesignerResponse", schema=DesignerResponseSchema)
-
+spec.components.schema("DeveloperRequest", schema=DeveloperRequestSchema)
+spec.components.schema("DeveloperResponse", schema=DeveloperResponseSchema)
+spec.components.schema("AssetPurchaseRequest", schema=AssetPurchaseRequestSchema)
+spec.components.schema("AssetPurchaseResponse", schema=AssetPurchaseResponseSchema)
 
