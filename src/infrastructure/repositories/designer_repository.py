@@ -24,12 +24,8 @@ class DesignerRepository(IDesignerRepository):
             # Manual mapping from Designer (domain) to DesignerModel (infra)
             designer = DesignerModel(
                 # chỉnh các field cho khớp schema của DesignerModel
-                # ví dụ giữ nguyên pattern như Todo: title/description/status/created_at/updated_at
-                title=getattr(designer, "title", None),
-                description=getattr(designer, "description", None),
-                status=getattr(designer, "status", None),
-                created_at=getattr(designer, "created_at", None),
-                updated_at=getattr(designer, "updated_at", None),
+                user_id=getattr(designer, "user_id", None),
+                paymentinfo=getattr(designer, "paymentinfo", None),
             )
             self.session.add(designer)
             self.session.commit()
@@ -54,8 +50,8 @@ class DesignerRepository(IDesignerRepository):
     #     self._designers
     #     return self._designers
     def list(self) -> List[DesignerModel]:
-        self._designers = session.query(DesignerModel).all()
-        # select * from designers
+        self._designers = self.session.query(DesignerModel).all()
+        # select * from designer
         return self._designers
 
     def update(self, designer: DesignerModel) -> DesignerModel:
@@ -63,11 +59,8 @@ class DesignerRepository(IDesignerRepository):
             # Manual mapping from Designer to DesignerModel
             designer = DesignerModel(
                 id=getattr(designer, "id", None),
-                title=getattr(designer, "title", None),
-                description=getattr(designer, "description", None),
-                status=getattr(designer, "status", None),
-                created_at=getattr(designer, "created_at", None),
-                updated_at=getattr(designer, "updated_at", None),
+                user_id=getattr(designer, "user_id", None),
+                paymentinfo=getattr(designer, "paymentinfo", None),
             )
             self.session.merge(designer)
             self.session.commit()

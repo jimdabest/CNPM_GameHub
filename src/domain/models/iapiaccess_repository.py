@@ -2,9 +2,9 @@ from abc import ABC, abstractmethod
 from .apiaccess import Apiaccess
 from typing import List, Optional
 
-class IUserRepository(ABC):
+class IApiaccessRepository(ABC):
     @abstractmethod
-    def add(self, user: Apiaccess) -> Apiaccess:
+    def add(self, apiaccess: Apiaccess) -> Apiaccess:
         pass
 
     @abstractmethod

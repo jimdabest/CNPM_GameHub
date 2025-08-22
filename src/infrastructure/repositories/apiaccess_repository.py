@@ -24,12 +24,13 @@ class ApiaccessRepository(IApiaccessRepository):
             # Manual mapping from Apiaccess (domain) to ApiaccessModel (infra)
             apiaccess = ApiaccessModel(
                 # chỉnh các field cho khớp schema của ApiaccessModel
-                # ví dụ giữ nguyên pattern như Todo: title/description/status/created_at/updated_at
-                title=getattr(apiaccess, "title", None),
-                description=getattr(apiaccess, "description", None),
+                developer_id=getattr(apiaccess, "developer_id", None),
+                admin_id=getattr(apiaccess, "admin_id", None),
+                api_type=getattr(apiaccess, "api_type", None),
+                api_key=getattr(apiaccess, "api_key", None),
+                sdk_link=getattr(apiaccess, "sdk_link", None),
+                request_date=getattr(apiaccess, "request_date", None),
                 status=getattr(apiaccess, "status", None),
-                created_at=getattr(apiaccess, "created_at", None),
-                updated_at=getattr(apiaccess, "updated_at", None),
             )
             self.session.add(apiaccess)
             self.session.commit()
@@ -37,6 +38,7 @@ class ApiaccessRepository(IApiaccessRepository):
             return apiaccess
         except Exception as e:
             self.session.rollback()
+            # giữ nguyên style raise như code gốc
             raise ValueError('Apiaccess not found')
         finally:
             self.session.close()
@@ -54,7 +56,7 @@ class ApiaccessRepository(IApiaccessRepository):
     #     self._apiaccesses
     #     return self._apiaccesses
     def list(self) -> List[ApiaccessModel]:
-        self._apiaccesses = session.query(ApiaccessModel).all()
+        self._apiaccesses = self.session.query(ApiaccessModel).all()
         # select * from apiaccess
         return self._apiaccesses
 
@@ -63,11 +65,13 @@ class ApiaccessRepository(IApiaccessRepository):
             # Manual mapping from Apiaccess to ApiaccessModel
             apiaccess = ApiaccessModel(
                 id=getattr(apiaccess, "id", None),
-                title=getattr(apiaccess, "title", None),
-                description=getattr(apiaccess, "description", None),
+                developer_id=getattr(apiaccess, "developer_id", None),
+                admin_id=getattr(apiaccess, "admin_id", None),
+                api_type=getattr(apiaccess, "api_type", None),
+                api_key=getattr(apiaccess, "api_key", None),
+                sdk_link=getattr(apiaccess, "sdk_link", None),
+                request_date=getattr(apiaccess, "request_date", None),
                 status=getattr(apiaccess, "status", None),
-                created_at=getattr(apiaccess, "created_at", None),
-                updated_at=getattr(apiaccess, "updated_at", None),
             )
             self.session.merge(apiaccess)
             self.session.commit()

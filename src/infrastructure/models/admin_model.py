@@ -12,4 +12,4 @@ class AdminModel(Base):
 
     user = relationship('UserModel', back_populates='admin')
     payout_transactions = relationship('PayoutModel', back_populates='admin')
-    apiaccess = relationship("APIaccessModel", back_populates="admin")
+    apiaccess = relationship("ApiaccessModel", back_populates="admin")

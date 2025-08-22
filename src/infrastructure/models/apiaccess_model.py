@@ -3,12 +3,12 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from infrastructure.databases.base import Base
 
-class APIaccessModel(Base):
+class ApiaccessModel(Base):
     __tablename__ = 'apiaccess'
     __table_args__ = {'extend_existing': True}  # Thêm dòng này
 
     id = Column(Integer, primary_key=True)
-    dev_id = Column(Integer, ForeignKey('developer.id'), nullable=False)
+    developer_id = Column(Integer, ForeignKey('developer.id'), nullable=False)
     admin_id = Column(Integer, ForeignKey("admin.id"), nullable=False)
    
 

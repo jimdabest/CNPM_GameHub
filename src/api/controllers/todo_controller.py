@@ -166,6 +166,7 @@ def update_todo(todo_id):
                   message:
                     type: string
     """
+    
     data = request.get_json()
     errors = request_schema.validate(data)
     if errors:

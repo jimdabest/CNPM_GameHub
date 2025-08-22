@@ -2,13 +2,13 @@ from abc import ABC, abstractmethod
 from .asset import Asset
 from typing import List, Optional
 
-class IUserRepository(ABC):
+class IAssetRepository(ABC):
     @abstractmethod
-    def add(self, user: Asset) -> Asset:
+    def add(self, asset: Asset) -> Asset:
         pass
 
     @abstractmethod
-    def get_by_id(self, assset_id: int) -> Optional[Asset]:
+    def get_by_id(self, asset_id: int) -> Optional[Asset]:
         pass
 
     @abstractmethod

@@ -24,10 +24,11 @@ class AssetRepository(IAssetRepository):
             # Manual mapping from Asset (domain) to AssetModel (infra)
             asset = AssetModel(
                 # chỉnh các field cho khớp schema của AssetModel
-                # ví dụ giữ nguyên pattern như Todo: title/description/status/created_at/updated_at
-                title=getattr(asset, "title", None),
-                description=getattr(asset, "description", None),
-                status=getattr(asset, "status", None),
+                designer_id=getattr(asset, "designer_id", None),
+                name=getattr(asset, "name", None),
+                type=getattr(asset, "type", None),
+                price=getattr(asset, "price", None),
+                download_count=getattr(asset, "download_count", None),
                 created_at=getattr(asset, "created_at", None),
                 updated_at=getattr(asset, "updated_at", None),
             )
@@ -54,8 +55,8 @@ class AssetRepository(IAssetRepository):
     #     self._assets
     #     return self._assets
     def list(self) -> List[AssetModel]:
-        self._assets = session.query(AssetModel).all()
-        # select * from assets
+        self._assets = self.session.query(AssetModel).all()
+        # select * from asset
         return self._assets
 
     def update(self, asset: AssetModel) -> AssetModel:
@@ -63,9 +64,11 @@ class AssetRepository(IAssetRepository):
             # Manual mapping from Asset to AssetModel
             asset = AssetModel(
                 id=getattr(asset, "id", None),
-                title=getattr(asset, "title", None),
-                description=getattr(asset, "description", None),
-                status=getattr(asset, "status", None),
+                designer_id=getattr(asset, "designer_id", None),
+                name=getattr(asset, "name", None),
+                type=getattr(asset, "type", None),
+                price=getattr(asset, "price", None),
+                download_count=getattr(asset, "download_count", None),
                 created_at=getattr(asset, "created_at", None),
                 updated_at=getattr(asset, "updated_at", None),
             )
