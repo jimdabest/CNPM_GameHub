@@ -11,7 +11,7 @@ class PlayerModel(Base):
     scores = Column(Integer)
     point = Column(Integer)
     
-    user = relationship("UserModel", back_populates="player", uselist=False)
+    user = relationship("UserModel", back_populates="player")
     redeems = relationship("RedeemModel", back_populates="player")
-    reviews = relationship("ReviewModel", back_populates="player")
+    reviews = relationship("GameReviewModel", back_populates="player")
     leaderboards = relationship("LeaderboardModel", back_populates="player")

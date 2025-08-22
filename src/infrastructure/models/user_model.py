@@ -20,3 +20,4 @@ class UserModel(Base):
     developer = relationship("DeveloperModel", back_populates="user", uselist=False)
     designer = relationship("DesignerModel", back_populates="user", uselist=False)
     admin = relationship("AdminModel", back_populates="user", uselist=False)
+    payouts = relationship("PayoutModel", back_populates="recipient")

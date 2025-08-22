@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, FLOAT
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 from infrastructure.databases.base import Base
 
-class game_review_model(Base):
+class GameReviewModel(Base):
     __tablename__ = 'game_review'
     __table_args__ = {'extend_existing': True}
 
@@ -11,3 +12,6 @@ class game_review_model(Base):
     rating = Column(Integer, nullable=False)
     comment = Column(String(500), nullable=True)
     review_date = Column(DateTime)
+
+    game = relationship("GameModel", back_populates="reviews")
+    player = relationship("PlayerModel", back_populates="reviews")

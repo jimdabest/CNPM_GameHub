@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, FLOAT
+from sqlalchemy.orm import relationship
 from infrastructure.databases.base import Base
 
 class LeaderboardModel(Base):
@@ -10,3 +11,6 @@ class LeaderboardModel(Base):
     game_id = Column(Integer, ForeignKey('game.id'), nullable=False)
     score = Column(Integer, nullable=False)
     rank = Column(Integer, nullable=False)
+
+    game = relationship("GameModel", back_populates="leaderboards")
+    player = relationship("PlayerModel", back_populates="leaderboards")

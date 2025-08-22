@@ -15,61 +15,78 @@ load_dotenv()
 
 class UserRepository(IUserRepository):
     def __init__(self, session: Session = session):
+        self._users = []
+        self._id_counter = 1
         self.session = session
 
     def add(self, user: User) -> UserModel:
         try:
-            #Manual mapping from User to UserModel
-            user = UserModel(
-                username = user.username,
-                password = user.password,
-                role = user.role,
-                status = user.status,
-                created_at = user.created_at,
-                updated_at = user.created_at
-            )
-            self.session.add(user)
-            self.session.commit()
-            self.session.refresh(user)
-            return user
-        except Exception as e:
-            self.session.rollback()
-            raise ValueError('User not found')
-        finally:
-            self.session.close()
-
-    def get_by_id(self, user_id: int) -> Optional[UserModel]:
-        return self.session.query(UserModel).filter_by(id=user_id).first()
-
-    def list(self) -> List[User]:
-        return self.session.query(UserModel).all()
-
-    def update(self, user: UserModel) -> UserModel:
-        try:
-               # Manual map User -> UserModel
-            user = UserModel(
-                id=user.id,
+            # Manual mapping from User (domain) to UserModel (infra)
+            user_model = UserModel(
                 username=user.username,
                 password=user.password,
                 role=user.role,
                 status=user.status,
                 created_at=user.created_at,
                 updated_at=user.updated_at
-        )
-            merged = self.session.merge(user)
+            )
+            self.session.add(user_model)
             self.session.commit()
-            self.session.refresh(merged)
-            return user
+            self.session.refresh(user_model)
+            return user_model
         except Exception as e:
             self.session.rollback()
-            raise ValueError('User not found')
+            raise ValueError(f'Error adding user: {str(e)}')
+        finally:
+            self.session.close()
+
+    def get_by_id(self, user_id: int) -> Optional[UserModel]:
+        try:
+            return self.session.query(UserModel).filter_by(id=user_id).first()
+        except Exception as e:
+            raise ValueError(f'Error getting user by id: {str(e)}')
+
+    def list(self) -> List[UserModel]:
+        try:
+            self._users = self.session.query(UserModel).all()
+            # select * from user
+            return self._users
+        except Exception as e:
+            raise ValueError(f'Error listing users: {str(e)}')
+
+    def update(self, user_id: int, username: str, password: str, role: str, status: str, updated_at) -> UserModel:
+        try:
+            # Find existing user
+            existing_user = self.session.query(UserModel).filter_by(id=user_id).first()
+            if not existing_user:
+                raise ValueError('User not found')
+            
+            # Update fields
+            existing_user.username = username
+            existing_user.password = password
+            existing_user.role = role
+            existing_user.status = status
+            existing_user.updated_at = updated_at
+            
+            self.session.commit()
+            self.session.refresh(existing_user)
+            return existing_user
+        except Exception as e:
+            self.session.rollback()
+            raise ValueError(f'Error updating user: {str(e)}')
         finally:
             self.session.close()
 
     def delete(self, user_id: int) -> None:
-        user = self.get_by_id(user_id)
-        if user:
-            self.session.delete(user)
-            self.session.commit()
-        else:
-            raise ValueError('User not found')
+        try:
+            user = self.session.query(UserModel).filter_by(id=user_id).first()
+            if user:
+                self.session.delete(user)
+                self.session.commit()
+            else:
+                raise ValueError('User not found')
+        except Exception as e:
+            self.session.rollback()
+            raise ValueError(f'Error deleting user: {str(e)}')
+        finally:
+            self.session.close()

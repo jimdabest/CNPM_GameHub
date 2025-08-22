@@ -13,5 +13,5 @@ class RedeemModel(Base):
     status = Column(String)
     created_at = Column(DateTime)
     
-    player = relationship("Player", back_populates="redeems")
-    reward = relationship("Reward", back_populates="redeems")
+    player = relationship("PlayerModel", back_populates="redeems")
+    reward = relationship("RewardModel", back_populates="redeems")

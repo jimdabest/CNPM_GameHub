@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from infrastructure.databases.base import Base
 
 
-class admin(Base):
+class AdminModel(Base):
     __tablename__ = 'admin'
     __table_args__ = {'extend_existing': True}
 
@@ -11,5 +11,5 @@ class admin(Base):
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False, unique=True)
 
     user = relationship('UserModel', back_populates='admin')
-    payout_transactions = relationship('payout_transactions', back_populates='admin')
+    payout_transactions = relationship('PayoutModel', back_populates='admin')
     apiaccess = relationship("APIaccessModel", back_populates="admin")
