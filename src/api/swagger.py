@@ -12,9 +12,8 @@ from api.schemas.asset import AssetRequestSchema, AssetResponseSchema
 from api.schemas.designer import DesignerRequestSchema, DesignerResponseSchema
 from api.schemas.apiaccess import ApiaccessRequestSchema, ApiaccessResponseSchema
 from api.schemas.leaderboard import LeaderboardRequestSchema, LeaderboardResponseSchema
-from api.schemas.game import GameRequestSchema, GameResponseSchema
-from api.schemas.game_review import GameReviewRequestSchema, GameReviewResponseSchema
-
+from api.schemas.payout_transactions import PayoutTransactionRequestSchema, PayoutTransactionResponseSchema
+from api.schemas.admin import AdminRequestSchema, AdminResponseSchema   
 spec = APISpec(
     title="Todo API",
     version="1.0.0",
@@ -45,9 +44,7 @@ spec.components.schema("ApiaccessRequest", schema=ApiaccessRequestSchema)
 spec.components.schema("ApiaccessResponse", schema=ApiaccessResponseSchema)
 spec.components.schema("LeaderboardRequest", schema=LeaderboardRequestSchema)
 spec.components.schema("LeaderboardResponse", schema=LeaderboardResponseSchema)
-spec.components.schema("GameRequest", schema=GameRequestSchema)
-spec.components.schema("GameResponse", schema=GameResponseSchema)
-spec.components.schema("GameReviewRequest", schema=GameReviewRequestSchema)
-spec.components.schema("GameReviewResponse", schema=GameReviewResponseSchema)
-
-
+spec.components.schema("PayoutTransactionRequest", schema=PayoutTransactionRequestSchema)
+spec.components.schema("PayoutTransactionResponse", schema=PayoutTransactionResponseSchema)
+spec.components.schema("AdminRequest", schema=AdminRequestSchema)
+spec.components.schema("AdminResponse", schema=AdminResponseSchema)

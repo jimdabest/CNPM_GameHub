@@ -1,0 +1,209 @@
+from flask import Blueprint, request, jsonify
+from services.admin_service import AdminService
+from infrastructure.repositories.admin_repository import AdminRepository
+from api.schemas.admin import AdminRequestSchema, AdminResponseSchema
+from infrastructure.databases.mssql import session
+from datetime import datetime
+
+bp = Blueprint('admin', __name__, url_prefix='/admins')
+admin_service = AdminService(AdminRepository(session))
+
+request_schema = AdminRequestSchema()
+response_schema = AdminResponseSchema()
+
+@bp.route('/', methods=['GET'])
+def list_admins():
+    """
+    Get all admins
+    ---
+    get:
+      summary: Get all admins
+      tags:
+        - Admins
+      responses:
+        200:
+          description: List of admins
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminResponse'
+    """
+    admins = admin_service.list_admins()
+    return jsonify(response_schema.dump(admins, many=True)), 200
+
+@bp.route('/<int:admin_id>', methods=['GET'])
+def get_admin(admin_id):
+    """
+    Get admin by id
+    ---
+    get:
+      summary: Get admin by id
+      parameters:
+        - name: admin_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID của admin cần lấy
+      tags:
+        - Admins
+      responses:
+        200:
+          description: object of admin
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
+        404:
+          description: Admin not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    """
+    admin = admin_service.get_admin_by_id(admin_id)
+    if not admin:
+        return jsonify({'message': 'Admin not found'}), 404
+    return jsonify(response_schema.dump(admin)), 200
+
+@bp.route('/', methods=['POST'])
+def create_admin():
+    """
+    Create a new admin
+    ---
+    post:
+      summary: Create a new admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminRequest'
+      tags:
+        - Admins
+      responses:
+        201:
+          description: Admin created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
+        400:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    """
+    data = request.get_json()
+    errors = request_schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+
+    admin = admin_service.add_admin(
+        user_id=data['user_id']
+    )
+    return jsonify(response_schema.dump(admin)), 201
+
+@bp.route('/<int:admin_id>', methods=['PUT'])
+def update_admin(admin_id):
+    """
+    Update admin
+    ---
+    put:
+      summary: Update admin by id
+      parameters:
+        - name: admin_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID của admin cần cập nhật
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminRequest'
+      tags:
+        - Admins
+      responses:
+        200:
+          description: Admin updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
+        400:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        404:
+          description: Admin not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    """
+    data = request.get_json()
+    errors = request_schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+
+    admin = admin_service.update_admin(
+        admin_id=admin_id,
+        user_id=data['user_id']
+    )
+    if not admin:
+        return jsonify({'message': 'Admin not found'}), 404
+    return jsonify(response_schema.dump(admin)), 200
+
+@bp.route('/<int:admin_id>', methods=['DELETE'])
+def delete_admin(admin_id):
+    """
+    Delete admin
+    ---
+    delete:
+      summary: Delete admin by id
+      parameters:
+        - name: admin_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID của admin cần xóa
+      tags:
+        - Admins
+      responses:
+        204:
+          description: Admin deleted successfully
+        404:
+          description: Admin not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    """
+    deleted = admin_service.delete_admin(admin_id)
+    if not deleted:
+        return jsonify({'message': 'Admin not found'}), 404
+    return '', 204
