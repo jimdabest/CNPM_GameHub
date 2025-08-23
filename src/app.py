@@ -13,6 +13,8 @@ from api.controllers.apiaccess_controller import bp as apiaccess_bp
 from api.controllers.leaderboard_controller import bp as leaderboard_bp
 from api.controllers.payout_transactions_controller import bp as payout_transactions_bp
 from api.controllers.admin_controller import bp as admin_bp
+from api.controllers.game_controller import bp as game_bp
+from api.controllers.game_review_controller import bp as game_review_bp
 from api.middleware import middleware
 from api.responses import success_response
 from infrastructure.databases import init_db
@@ -39,6 +41,8 @@ def create_app():
     app.register_blueprint(leaderboard_bp)
     app.register_blueprint(payout_transactions_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(game_bp)
+    app.register_blueprint(game_review_bp)
     
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
@@ -62,7 +66,7 @@ def create_app():
     with app.test_request_context():
         for rule in app.url_map.iter_rules():
             # Thêm các endpoint khác nếu cần
-            if rule.endpoint.startswith(('todo.', 'course.', 'user.', 'player.', 'reward.', 'redeem.', 'designer.', 'developer.', 'asset_purchases.', 'apiaccess.', 'asset.', 'leaderboard.', 'payout_transactions.', 'admin.')):
+            if rule.endpoint.startswith(('todo.', 'course.', 'user.', 'player.', 'reward.', 'redeem.', 'designer.', 'developer.', 'asset_purchases.', 'apiaccess.', 'asset.', 'leaderboard.', 'payout_transactions.', 'admin.', 'game.', 'game_review.')):
                 view_func = app.view_functions[rule.endpoint]
                 print(f"Adding path: {rule.rule} -> {view_func}")
                 spec.path(view=view_func)
