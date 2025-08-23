@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from .player import Player
 from typing import List, Optional
 
-class ITodoRepository(ABC):
+class IPlayerRepository(ABC):
     @abstractmethod
     def add(self, user: Player) -> Player:
         pass

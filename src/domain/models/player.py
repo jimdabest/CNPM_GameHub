@@ -4,3 +4,5 @@ class Player:
         self.user_id = user_id
         self.scores = scores
         self.points = points
+        self.created_at = created_at
+        self.updated_at = updated_at
