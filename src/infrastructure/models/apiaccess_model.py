@@ -8,7 +8,7 @@ class ApiaccessModel(Base):
     __table_args__ = {'extend_existing': True}  # Thêm dòng này
 
     id = Column(Integer, primary_key=True)
-    developer_id = Column(Integer, ForeignKey('developer.id'), nullable=False)
+    dev_id = Column(Integer, ForeignKey('developer.id'), nullable=False)
     admin_id = Column(Integer, ForeignKey("admin.id"), nullable=False)
    
 
