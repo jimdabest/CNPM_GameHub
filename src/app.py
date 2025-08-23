@@ -11,6 +11,8 @@ from api.controllers.asset_purchases_controller import bp as asset_purchases_bp
 from api.controllers.asset_controller import bp as asset_bp
 from api.controllers.apiaccess_controller import bp as apiaccess_bp
 from api.controllers.leaderboard_controller import bp as leaderboard_bp
+from api.controllers.game_controller import bp as game_bp
+from api.controllers.game_review_controller import bp as game_review_bp
 from api.middleware import middleware
 from api.responses import success_response
 from infrastructure.databases import init_db
@@ -18,6 +20,7 @@ from config import Config
 from flasgger import Swagger
 from config import SwaggerConfig
 from flask_swagger_ui import get_swaggerui_blueprint
+
 
 
 def create_app():
@@ -35,7 +38,8 @@ def create_app():
     app.register_blueprint(asset_bp)
     app.register_blueprint(apiaccess_bp)
     app.register_blueprint(leaderboard_bp)
-    
+    app.register_blueprint(game_bp)
+    app.register_blueprint(game_review_bp)
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
     API_URL = '/swagger.json'
@@ -58,7 +62,7 @@ def create_app():
     with app.test_request_context():
         for rule in app.url_map.iter_rules():
             # Thêm các endpoint khác nếu cần
-            if rule.endpoint.startswith(('todo.', 'course.', 'user.', 'player.', 'reward.', 'redeem.', 'designer.', 'developer.', 'asset_purchases.', 'apiaccess.', 'asset.', 'leaderboard.')):
+            if rule.endpoint.startswith(('todo.', 'course.', 'user.', 'player.', 'reward.', 'redeem.', 'designer.', 'developer.', 'asset_purchases.', 'apiaccess.', 'asset.', 'leaderboard.', 'game.', 'game_review.')):
                 view_func = app.view_functions[rule.endpoint]
                 print(f"Adding path: {rule.rule} -> {view_func}")
                 spec.path(view=view_func)
