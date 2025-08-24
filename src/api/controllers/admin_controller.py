@@ -1,12 +1,16 @@
 from flask import Blueprint, request, jsonify
 from services.admin_service import AdminService
+from services.user_service import UserService
 from infrastructure.repositories.admin_repository import AdminRepository
+from infrastructure.repositories.user_repository import UserRepository
 from api.schemas.admin import AdminRequestSchema, AdminResponseSchema
 from infrastructure.databases.mssql import session
-from datetime import datetime
 
 bp = Blueprint('admin', __name__, url_prefix='/admins')
-admin_service = AdminService(AdminRepository(session))
+
+# Inject UserService vào AdminService
+user_service = UserService(UserRepository(session))
+admin_service = AdminService(AdminRepository(), user_service)
 
 request_schema = AdminRequestSchema()
 response_schema = AdminResponseSchema()
@@ -66,7 +70,7 @@ def get_admin(admin_id):
                   message:
                     type: string
     """
-    admin = admin_service.get_admin_by_id(admin_id)
+    admin = admin_service.get_admin(admin_id)
     if not admin:
         return jsonify({'message': 'Admin not found'}), 404
     return jsonify(response_schema.dump(admin)), 200
@@ -107,11 +111,20 @@ def create_admin():
     errors = request_schema.validate(data)
     if errors:
         return jsonify(errors), 400
-
-    admin = admin_service.add_admin(
-        user_id=data['user_id']
-    )
-    return jsonify(response_schema.dump(admin)), 201
+    
+    try:
+        admin = admin_service.create_admin(
+            user_id=data['user_id']
+        )
+        return jsonify(response_schema.dump(admin)), 201
+    except ValueError as e:
+        error_msg = str(e)
+        if 'FOREIGN KEY constraint' in error_msg:
+            return jsonify({'error': f'User with id {data["user_id"]} does not exist. Please create the user first or use a valid user_id.'}), 400
+        elif 'Unique constraint' in error_msg or 'UNIQUE constraint' in error_msg:
+            return jsonify({'error': f'Admin with user_id {data["user_id"]} already exists.'}), 400
+        else:
+            return jsonify({'error': error_msg}), 400
 
 @bp.route('/<int:admin_id>', methods=['PUT'])
 def update_admin(admin_id):
@@ -165,14 +178,15 @@ def update_admin(admin_id):
     errors = request_schema.validate(data)
     if errors:
         return jsonify(errors), 400
-
-    admin = admin_service.update_admin(
-        admin_id=admin_id,
-        user_id=data['user_id']
-    )
-    if not admin:
-        return jsonify({'message': 'Admin not found'}), 404
-    return jsonify(response_schema.dump(admin)), 200
+    
+    try:
+        admin = admin_service.update_admin(
+            admin_id=admin_id,
+            user_id=data['user_id']
+        )
+        return jsonify(response_schema.dump(admin)), 200
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
 
 @bp.route('/<int:admin_id>', methods=['DELETE'])
 def delete_admin(admin_id):
@@ -203,7 +217,11 @@ def delete_admin(admin_id):
                   message:
                     type: string
     """
-    deleted = admin_service.delete_admin(admin_id)
-    if not deleted:
-        return jsonify({'message': 'Admin not found'}), 404
-    return '', 204
+    try:
+        admin_service.delete_admin(admin_id)
+        return '', 204
+    except ValueError as e:
+        if 'not found' in str(e).lower():
+            return jsonify({'message': 'Admin not found'}), 404
+        else:
+            return jsonify({'error': str(e)}), 400

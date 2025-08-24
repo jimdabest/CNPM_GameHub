@@ -1,13 +1,17 @@
 from flask import Blueprint, request, jsonify
 from services.developer_service import DeveloperService
+from services.user_service import UserService
 from infrastructure.repositories.developer_repository import DeveloperRepository
+from infrastructure.repositories.user_repository import UserRepository
 from api.schemas.developer import DeveloperRequestSchema, DeveloperResponseSchema
 from datetime import datetime
 from infrastructure.databases.mssql import session
 
 bp = Blueprint('developer', __name__, url_prefix='/developers')
 
-developer_service = DeveloperService(DeveloperRepository(session))
+# Inject UserService vào DeveloperService
+user_service = UserService(UserRepository(session))
+developer_service = DeveloperService(DeveloperRepository(session), user_service)
 
 request_schema = DeveloperRequestSchema()
 response_schema = DeveloperResponseSchema()
@@ -110,10 +114,8 @@ def add_developer():
         return jsonify(errors), 400
     now = datetime.utcnow()
     dev = developer_service.add_developer(
-        name=data['name'],
-        email=data['email'],
-        role=data['role'],
-        status=data['status'],
+        user_id=data['user_id'],
+        payment_info=data['payment_info'],
         created_at=now,
         updated_at=now
     )
@@ -173,10 +175,9 @@ def update_developer(developer_id):
         return jsonify(errors), 400
     dev = developer_service.update_developer(
         developer_id=developer_id,
-        name=data['name'],
-        email=data['email'],
-        role=data['role'],
-        status=data['status'],
+        user_id=data['user_id'],
+        payment_info=data['payment_info'],
+        created_at=datetime.utcnow(),
         updated_at=datetime.utcnow()
     )
     if dev is None:

@@ -1,27 +1,31 @@
-from typing import List, Optional
 from domain.models.admin import Admin
 from domain.models.iadmin_repository import IAdminRepository
-
+from typing import List, Optional
 
 class AdminService:
-    def __init__(self, admin_repository: IAdminRepository):
-        self.admin_repository = admin_repository
+    def __init__(self, repository: IAdminRepository, user_service=None):
+        self.repository = repository
+        self.user_service = user_service
 
-    def add_admin(self, username: str, password: str, role: str, status: str, created_at, updated_at) -> Admin:
-        admin = Admin(id=None, username=username, password=password, role=role, status=status,
-                      created_at=created_at, updated_at=updated_at)
-        return self.admin_repository.add(admin)
+    def create_admin(self, user_id: int) -> Admin:
+        admin = Admin(id=None, user_id=user_id)
+        result = self.repository.add(admin)
+        
+        # Cập nhật role của user thành 'admin'
+        if self.user_service:
+            self.user_service.update_user_role(user_id, 'admin')
+        
+        return result
 
-    def get_admin_by_id(self, admin_id: int) -> Optional[Admin]:
-        return self.admin_repository.get_by_id(admin_id)
+    def get_admin(self, admin_id: int) -> Optional[Admin]:
+        return self.repository.get_by_id(admin_id)
 
     def list_admins(self) -> List[Admin]:
-        return self.admin_repository.list()
+        return self.repository.list()
 
-    def update_admin(self, admin_id: int, username: str, password: str, role: str, status: str, created_at, updated_at) -> Admin:
-        admin = Admin(id=admin_id, username=username, password=password, role=role, status=status,
-                      created_at=created_at, updated_at=updated_at)
-        return self.admin_repository.update(admin)
+    def update_admin(self, admin_id: int, user_id: int) -> Admin:
+        admin = Admin(id=admin_id, user_id=user_id)
+        return self.repository.update(admin)
 
     def delete_admin(self, admin_id: int) -> None:
-        self.admin_repository.delete(admin_id)
+        self.repository.delete(admin_id)

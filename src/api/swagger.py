@@ -12,7 +12,7 @@ from api.schemas.asset import AssetRequestSchema, AssetResponseSchema
 from api.schemas.designer import DesignerRequestSchema, DesignerResponseSchema
 from api.schemas.apiaccess import ApiaccessRequestSchema, ApiaccessResponseSchema
 from api.schemas.leaderboard import LeaderboardRequestSchema, LeaderboardResponseSchema
-from api.schemas.payout_transactions import PayoutTransactionRequestSchema, PayoutTransactionResponseSchema
+from api.schemas.payout_transaction import PayoutTransactionRequestSchema, PayoutTransactionResponseSchema
 from api.schemas.admin import AdminRequestSchema, AdminResponseSchema   
 spec = APISpec(
     title="Todo API",

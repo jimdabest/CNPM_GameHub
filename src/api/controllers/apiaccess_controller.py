@@ -110,18 +110,29 @@ def create_apiaccess():
     data = request.get_json()
     errors = request_schema.validate(data)
     if errors:
-        return jsonify(errors), 400
+      return jsonify(errors), 400
 
     # Tuỳ schema/service: bổ sung các trường khác nếu có
+    # Xử lý request_date: nếu là str thì chuyển về datetime
+    request_date = data.get('request_date')
+    if isinstance(request_date, str):
+      try:
+        request_date = datetime.fromisoformat(request_date)
+      except Exception:
+        request_date = datetime.utcnow()
+    elif request_date is None: 
+      request_date = datetime.utcnow()
+
     apiaccess = apiaccess_service.add_apiaccess(
-        developer_id=data['developer_id'],
-        api_type=data['api_type'],
-        api_key=data.get('api_key'),
-        sdk_link=data.get('sdk_link'),
-        request_date=data.get('request_date', datetime.utcnow()),
-        status=data.get('status', 'pending'),
-        # Ví dụ nếu cần timestamps khác, có thể set tại service/repo
-    )
+    developer_id=data['developer_id'],
+    admin_id=data['admin_id'],  
+    api_type=data['api_type'],
+    api_key=data.get('api_key'),
+    sdk_link=data.get('sdk_link'),
+    request_date=request_date,
+    status=data.get('status', 'pending'),
+    # Ví dụ nếu cần timestamps khác, có thể set tại service/repo
+  )
     return jsonify(response_schema.dump(apiaccess)), 201
 
 
@@ -178,16 +189,27 @@ def update_apiaccess(apiaccess_id):
     if errors:
         return jsonify(errors), 400
 
+  # Xử lý request_date: nếu là str thì chuyển về datetime
+    request_date = data.get('request_date')
+    if isinstance(request_date, str):
+      try:
+        request_date = datetime.fromisoformat(request_date)
+      except Exception:
+        request_date = datetime.utcnow()
+    elif request_date is None:
+      request_date = datetime.utcnow()
+
     apiaccess = apiaccess_service.update_apiaccess(
-        apiaccess_id=apiaccess_id,
-        developer_id=data['developer_id'],
-        api_type=data['api_type'],
-        api_key=data.get('api_key'),
-        sdk_link=data.get('sdk_link'),
-        request_date=data.get('request_date', datetime.utcnow()),
-        status=data.get('status', 'pending'),
-        # Ví dụ nếu cần timestamp cập nhật khác: set trong service/repo
-    )
+    apiaccess_id=apiaccess_id,
+    developer_id=data['developer_id'],
+    admin_id=data['admin_id'],
+    api_type=data['api_type'],
+    api_key=data.get('api_key'),
+    sdk_link=data.get('sdk_link'),
+    request_date=request_date,
+    status=data.get('status', 'pending'),
+    # Ví dụ nếu cần timestamp cập nhật khác: set trong service/repo
+  )
     if not apiaccess:
         return jsonify({'message': 'Apiaccess not found'}), 404
 
@@ -223,7 +245,11 @@ def delete_apiaccess(apiaccess_id):
                   message:
                     type: string
     """
-    deleted = apiaccess_service.delete_apiaccess(apiaccess_id)
-    if not deleted:
-        return jsonify({'message': 'Apiaccess not found'}), 404
-    return '', 204
+    try:
+        apiaccess_service.delete_apiaccess(apiaccess_id)
+        return '', 204
+    except ValueError as e:
+        if 'not found' in str(e).lower():
+            return jsonify({'message': 'Done'}), 404
+        else:
+            return jsonify({'error': str(e)}), 400

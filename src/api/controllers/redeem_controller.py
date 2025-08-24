@@ -1,13 +1,23 @@
 from flask import Blueprint, request, jsonify
 from services.redeem_service import RedeemService
+from services.player_service import PlayerService
+from services.reward_service import RewardService
 from infrastructure.repositories.redeem_repository import RedeemRepository
+from infrastructure.repositories.player_repository import PlayerRepository
+from infrastructure.repositories.reward_repository import RewardRepository
+from infrastructure.repositories.user_repository import UserRepository
+from services.user_service import UserService
 from api.schemas.redeem import RedeemRequestSchema, RedeemResponseSchema
 from datetime import datetime
 from infrastructure.databases.mssql import session
 
 bp = Blueprint('redeem', __name__, url_prefix='/redeems')
 
-redeem_service = RedeemService(RedeemRepository(session))
+# Inject dependencies vào RedeemService
+user_service = UserService(UserRepository(session))
+player_service = PlayerService(PlayerRepository(session), user_service)
+reward_service = RewardService(RewardRepository(session))
+redeem_service = RedeemService(RedeemRepository(session), player_service, reward_service)
 
 request_schema = RedeemRequestSchema()
 response_schema = RedeemResponseSchema()

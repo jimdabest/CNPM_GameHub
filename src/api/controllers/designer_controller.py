@@ -1,14 +1,17 @@
 from flask import Blueprint, request, jsonify
 from services.designer_service import DesignerService
+from services.user_service import UserService
 from infrastructure.repositories.designer_repository import DesignerRepository
+from infrastructure.repositories.user_repository import UserRepository
 from api.schemas.designer import DesignerRequestSchema, DesignerResponseSchema
 from datetime import datetime
 from infrastructure.databases.mssql import session
 
 bp = Blueprint('designer', __name__, url_prefix='/designers')
 
-
-designer_service = DesignerService(DesignerRepository(session))
+# Inject UserService vào DesignerService
+user_service = UserService(UserRepository(session))
+designer_service = DesignerService(DesignerRepository(session), user_service)
 
 request_schema = DesignerRequestSchema()
 response_schema = DesignerResponseSchema()
@@ -69,7 +72,7 @@ def get_designer(designer_id):
                   message:
                     type: string
     """
-    designer = designer_service.get_designer(designer_id)
+    designer = designer_service.get_designer_by_id(designer_id)
     if not designer:
         return jsonify({'message': 'Designer not found'}), 404
     return jsonify(response_schema.dump(designer)), 200
@@ -112,12 +115,9 @@ def create_designer():
     if errors:
         return jsonify(errors), 400
 
-    # Tuỳ schema/service: bổ sung các trường khác nếu có (vd: status)
-    designer = designer_service.create_designer(
+    designer = designer_service.add_designer(
         user_id=data['user_id'],
-        paymentinfo=data.get('paymentinfo'),
-        # Ví dụ nếu schema có 'status': status=data.get('status'),
-        # Ví dụ nếu cần timestamps: created_at=datetime.utcnow(), updated_at=datetime.utcnow()
+        paymentinfo=data.get('paymentinfo')
     )
     return jsonify(response_schema.dump(designer)), 201
 
@@ -217,7 +217,8 @@ def delete_designer(designer_id):
                   message:
                     type: string
     """
-    deleted = designer_service.delete_designer(designer_id)
-    if not deleted:
-        return jsonify({'message': 'Designer not found'}), 404
-    return '', 204
+    try:
+      designer_service.delete_designer(designer_id)
+      return '', 204
+    except ValueError as e:
+      return jsonify({'message': str(e)}), 404

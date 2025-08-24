@@ -16,5 +16,4 @@ class AssetModel(Base):
     updated_at = Column(DateTime)
 
     designer = relationship("DesignerModel", back_populates="assets")
-    purchases = relationship("AssetPurchasesModel", back_populates="asset")
     asset_purchases = relationship("AssetPurchasesModel", back_populates="asset")

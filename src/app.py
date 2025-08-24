@@ -11,7 +11,7 @@ from api.controllers.asset_purchases_controller import bp as asset_purchases_bp
 from api.controllers.asset_controller import bp as asset_bp
 from api.controllers.apiaccess_controller import bp as apiaccess_bp
 from api.controllers.leaderboard_controller import bp as leaderboard_bp
-from api.controllers.payout_transactions_controller import bp as payout_transactions_bp
+from api.controllers.payout_transaction_controller import bp as payout_transaction_bp
 from api.controllers.admin_controller import bp as admin_bp
 from api.controllers.game_controller import bp as game_bp
 from api.controllers.game_review_controller import bp as game_review_bp
@@ -39,7 +39,7 @@ def create_app():
     app.register_blueprint(asset_bp)
     app.register_blueprint(apiaccess_bp)
     app.register_blueprint(leaderboard_bp)
-    app.register_blueprint(payout_transactions_bp)
+    app.register_blueprint(payout_transaction_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(game_bp)
     app.register_blueprint(game_review_bp)
@@ -66,7 +66,7 @@ def create_app():
     with app.test_request_context():
         for rule in app.url_map.iter_rules():
             # Thêm các endpoint khác nếu cần
-            if rule.endpoint.startswith(('todo.', 'course.', 'user.', 'player.', 'reward.', 'redeem.', 'designer.', 'developer.', 'asset_purchases.', 'apiaccess.', 'asset.', 'leaderboard.', 'payout_transactions.', 'admin.', 'game.', 'game_review.')):
+            if rule.endpoint.startswith(('todo.', 'course.', 'user.', 'player.', 'reward.', 'redeem.', 'designer.', 'developer.', 'asset_purchases.', 'apiaccess.', 'asset.', 'leaderboard.', 'payout_transaction.', 'admin.', 'game.', 'game_review.')):
                 view_func = app.view_functions[rule.endpoint]
                 print(f"Adding path: {rule.rule} -> {view_func}")
                 spec.path(view=view_func)

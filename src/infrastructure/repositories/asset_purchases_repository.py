@@ -32,11 +32,18 @@ class AssetPurchaseRepository:
     def list(self) -> List[AssetPurchasesModel]:
         return self.session.query(AssetPurchasesModel).all()
 
-    def update(self, asset_purchase: AssetPurchasesModel) -> AssetPurchasesModel:
+    def update(self, asset_purchase: Asset_Purchase) -> AssetPurchasesModel:
         try:
-            self.session.merge(asset_purchase)
+            ap = self.session.query(AssetPurchasesModel).filter_by(id=asset_purchase.id).first()
+            if not ap:
+                raise ValueError("AssetPurchase not found")
+            ap.dev_id = asset_purchase.dev_id
+            ap.asset_id = asset_purchase.asset_id
+            ap.purchase_date = asset_purchase.purchase_date
+            ap.amount_paid = asset_purchase.amount_paid
             self.session.commit()
-            return asset_purchase
+            self.session.refresh(ap)
+            return ap
         except Exception as e:
             self.session.rollback()
             raise ValueError("AssetPurchase update failed") from e

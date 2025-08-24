@@ -22,4 +22,3 @@ class IAdminRepository(ABC):
     @abstractmethod
     def delete(self, admin_id: int) -> None:
         pass
-        

@@ -170,7 +170,7 @@ def update_asset_purchase(purchase_id):
     if errors:
         return jsonify(errors), 400
     asset_purchase = asset_purchase_service.update_asset_purchase(
-        purchase_id=purchase_id,
+        asset_purchase_id=purchase_id,
         dev_id=data['dev_id'],
         asset_id=data['asset_id'],
         amount_paid=data['amount_paid'],

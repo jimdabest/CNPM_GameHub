@@ -4,12 +4,19 @@ from domain.models.idesigner_repository import IDesignerRepository
 
 
 class DesignerService:
-    def __init__(self, designer_repository: IDesignerRepository):
+    def __init__(self, designer_repository: IDesignerRepository, user_service=None):
         self.designer_repository = designer_repository
+        self.user_service = user_service
     
     def add_designer(self, user_id: int, paymentinfo: Optional[str]) -> Designer:
         designer = Designer(id=None, user_id=user_id, paymentinfo=paymentinfo)
-        return self.designer_repository.add(designer)
+        result = self.designer_repository.add(designer)
+        
+        # Cập nhật role của user thành 'designer'
+        if self.user_service:
+            self.user_service.update_user_role(user_id, 'designer')
+        
+        return result
     
     def get_designer_by_id(self, designer_id: int) -> Optional[Designer]:
         return self.designer_repository.get_by_id(designer_id)

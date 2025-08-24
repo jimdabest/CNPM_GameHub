@@ -6,10 +6,10 @@ class AssetPurchaseService:
     def __init__(self, asset_purchase_repository: IAssetRepository):
         self.asset_purchase_repository = asset_purchase_repository
     
-    def add_asset_purchase(self, developer_id: int, asset_id: int, purchase_date, amount_paid: float) -> Asset_Purchase:
+    def add_asset_purchase(self, dev_id: int, asset_id: int, purchase_date, amount_paid: float) -> Asset_Purchase:
         asset_purchase = Asset_Purchase(
             id=None,
-            developer_id=developer_id,
+            dev_id=dev_id,
             asset_id=asset_id,
             purchase_date=purchase_date,
             amount_paid=amount_paid
@@ -22,10 +22,10 @@ class AssetPurchaseService:
     def list_asset_purchases(self) -> List[Asset_Purchase]:
         return self.asset_purchase_repository.list()
     
-    def update_asset_purchase(self, asset_purchase_id: int, developer_id: int, asset_id: int, purchase_date, amount_paid: float) -> Asset_Purchase:
+    def update_asset_purchase(self, asset_purchase_id: int, dev_id: int, asset_id: int, purchase_date, amount_paid: float) -> Asset_Purchase:
         asset_purchase = Asset_Purchase(
             id=asset_purchase_id,
-            developer_id=developer_id,
+            dev_id=dev_id,
             asset_id=asset_id,
             purchase_date=purchase_date,
             amount_paid=amount_paid

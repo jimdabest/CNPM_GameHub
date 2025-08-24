@@ -1,13 +1,17 @@
 from flask import Blueprint, request, jsonify
 from services.player_service import PlayerService
+from services.user_service import UserService
 from infrastructure.repositories.player_repository import PlayerRepository
+from infrastructure.repositories.user_repository import UserRepository
 from api.schemas.player import PlayerRequestSchema, PlayerResponseSchema
 from datetime import datetime
 from infrastructure.databases.mssql import session
 
 bp = Blueprint('player', __name__, url_prefix='/players')
 
-player_service = PlayerService(PlayerRepository(session))
+# Inject UserService vào PlayerService
+user_service = UserService(UserRepository(session))
+player_service = PlayerService(PlayerRepository(session), user_service)
 
 request_schema = PlayerRequestSchema()
 response_schema = PlayerResponseSchema()

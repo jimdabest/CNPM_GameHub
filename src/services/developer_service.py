@@ -3,8 +3,9 @@ from domain.models.developer import Developer
 from domain.models.ideveloper_repository import IDeveloperRepository
 
 class DeveloperService:
-    def __init__(self, developer_repository: IDeveloperRepository):
+    def __init__(self, developer_repository: IDeveloperRepository, user_service=None):
         self.developer_repository = developer_repository
+        self.user_service = user_service
     
     def add_developer(self, user_id: int, payment_info: str, created_at, updated_at) -> Developer:
         developer = Developer(
@@ -14,7 +15,13 @@ class DeveloperService:
             created_at=created_at,
             updated_at=updated_at
         )
-        return self.developer_repository.add(developer)
+        result = self.developer_repository.add(developer)
+        
+        # Cập nhật role của user thành 'developer'
+        if self.user_service:
+            self.user_service.update_user_role(user_id, 'developer')
+        
+        return result
     
     def get_developer_by_id(self, developer_id: int) -> Optional[Developer]:
         return self.developer_repository.get_by_id(developer_id)

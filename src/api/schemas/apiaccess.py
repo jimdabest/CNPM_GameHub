@@ -2,6 +2,7 @@ from marshmallow import Schema, fields
 
 class ApiaccessRequestSchema(Schema):
     developer_id = fields.Int(required=True)
+    admin_id = fields.Int(required=True)
     api_type = fields.Str(required=True)
     api_key = fields.Str(required=False)
     sdk_link = fields.Str(required=False)
@@ -12,6 +13,7 @@ class ApiaccessRequestSchema(Schema):
 class ApiaccessResponseSchema(Schema):
     id = fields.Int(required=True)
     developer_id = fields.Int(required=True)
+    admin_id = fields.Int(required=True)
     api_type = fields.Str(required=True)
     api_key = fields.Str(required=True)
     sdk_link = fields.Str(required=True)
