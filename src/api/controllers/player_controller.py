@@ -115,11 +115,11 @@ def create_player():
     
     now = datetime.utcnow()
     player = player_service.create_player(
-        user_id=data['user_id'],
-        scores=data['scores'],
-        points=data['points'],
-        created_at=now,
-        updated_at=now
+      user_id=data['user_id'],
+      scores=data['scores'],
+      point=data['point'],
+      created_at=now,
+      updated_at=now
     )
     return jsonify(response_schema.dump(player)), 201
 
@@ -178,13 +178,13 @@ def update_player(player_id):
     
     now = datetime.utcnow()
     player = player_service.update_player(
-        player_id=player_id,
-        user_id=data['user_id'],
-        scores=data['scores'],
-        points=data['points'],
-        created_at=now,
-        updated_at=now
-    )
+      player_id=player_id,
+      user_id=data['user_id'],
+      scores=data['scores'],
+      point=data['point'],
+      created_at=now,
+      updated_at=now
+      )
     return jsonify(response_schema.dump(player)), 200
 
 @bp.route('/<int:player_id>', methods=['DELETE'])

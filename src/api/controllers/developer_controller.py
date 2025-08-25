@@ -112,12 +112,9 @@ def add_developer():
     errors = request_schema.validate(data)
     if errors:
         return jsonify(errors), 400
-    now = datetime.utcnow()
     dev = developer_service.add_developer(
         user_id=data['user_id'],
         payment_info=data['payment_info'],
-        created_at=now,
-        updated_at=now
     )
     return jsonify(response_schema.dump(dev)), 201
 
@@ -176,9 +173,7 @@ def update_developer(developer_id):
     dev = developer_service.update_developer(
         developer_id=developer_id,
         user_id=data['user_id'],
-        payment_info=data['payment_info'],
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
+        payment_info=data['payment_info']
     )
     if dev is None:
         return jsonify({'message': 'Developer not found'}), 404

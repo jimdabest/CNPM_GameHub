@@ -7,8 +7,8 @@ class PlayerService:
         self.repository = repository
         self.user_service = user_service
 
-    def create_player(self, user_id: int, scores: int, points: int, created_at, updated_at) -> Player:
-        player = Player(id=None, user_id=user_id, scores=scores, points=points, created_at=created_at, updated_at=updated_at)
+    def create_player(self, user_id: int, scores: int, point: int, created_at, updated_at) -> Player:
+        player = Player(id=None, user_id=user_id, scores=scores, point=point, created_at=created_at, updated_at=updated_at)
         result = self.repository.add(player)
         
         # Cập nhật role của user thành 'player'
@@ -23,31 +23,31 @@ class PlayerService:
     def list_players(self) -> List[Player]:
         return self.repository.list()
 
-    def update_player(self, player_id: int, user_id: int, scores: int, points: int, created_at, updated_at) -> Player:
-        player = Player(id=player_id, user_id=user_id, scores=scores, points=points, created_at=created_at, updated_at=updated_at)
+    def update_player(self, player_id: int, user_id: int, scores: int, point: int, created_at, updated_at) -> Player:
+        player = Player(id=player_id, user_id=user_id, scores=scores, point=point, created_at=created_at, updated_at=updated_at)
         return self.repository.update(player)
 
     def delete_player(self, player_id: int) -> None:
         self.repository.delete(player_id)
     
-    def deduct_points(self, player_id: int, points: int) -> None:
-        """Trừ points của player"""
+    def deduct_point(self, player_id: int, point: int) -> None:
+        """Trừ point của player"""
         player = self.repository.get_by_id(player_id)
-        if player and player.points >= points:
+        if player and player.point >= point:
             from datetime import datetime
             self.repository.update(Player(
                 id=player_id,
                 user_id=player.user_id,
                 scores=player.scores,
-                points=player.points - points,
-                created_at=player.created_at,
+                point=player.point - point,
+                created_at=player.user.created_at,
                 updated_at=datetime.utcnow()
             ))
         else:
-            raise ValueError(f'Player does not have enough points. Required: {points}')
+            raise ValueError(f'Player does not have enough point. Required: {point}')
     
-    def add_points(self, player_id: int, points: int) -> None:
-        """Thêm points cho player"""
+    def add_point(self, player_id: int, point: int) -> None:
+        """Thêm point cho player"""
         player = self.repository.get_by_id(player_id)
         if player:
             from datetime import datetime
@@ -55,8 +55,8 @@ class PlayerService:
                 id=player_id,
                 user_id=player.user_id,
                 scores=player.scores,
-                points=player.points + points,
-                created_at=player.created_at,
+                point=player.point + point,
+                created_at=player.user.created_at,
                 updated_at=datetime.utcnow()
             ))
         else:
@@ -71,13 +71,13 @@ class PlayerService:
                 id=player_id,
                 user_id=player.user_id,
                 scores=player.scores + new_score,
-                points=player.points,
-                created_at=player.created_at,
+                point=player.point,
+                created_at=player.user.created_at,
                 updated_at=datetime.utcnow()
             ))
         else:
             raise ValueError(f'Player with id {player_id} not found')
     
-    def add_achievement_points(self, player_id: int, bonus_points: int) -> None:
-        """Thưởng points cho achievement"""
-        self.add_points(player_id, bonus_points)
+    def add_achievement_point(self, player_id: int, bonus_point: int) -> None:
+        """Thưởng point cho achievement"""
+        self.add_point(player_id, bonus_point)

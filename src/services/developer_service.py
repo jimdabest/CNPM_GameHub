@@ -7,20 +7,16 @@ class DeveloperService:
         self.developer_repository = developer_repository
         self.user_service = user_service
     
-    def add_developer(self, user_id: int, payment_info: str, created_at, updated_at) -> Developer:
+    def add_developer(self, user_id: int, payment_info: str) -> Developer:
         developer = Developer(
             id=None,
             user_id=user_id,
-            payment_info=payment_info,
-            created_at=created_at,
-            updated_at=updated_at
+            payment_info=payment_info
         )
         result = self.developer_repository.add(developer)
-        
         # Cập nhật role của user thành 'developer'
         if self.user_service:
             self.user_service.update_user_role(user_id, 'developer')
-        
         return result
     
     def get_developer_by_id(self, developer_id: int) -> Optional[Developer]:
@@ -29,13 +25,11 @@ class DeveloperService:
     def list_developers(self) -> List[Developer]:
         return self.developer_repository.list()
     
-    def update_developer(self, developer_id: int, user_id: int, payment_info: str, created_at, updated_at) -> Developer:
+    def update_developer(self, developer_id: int, user_id: int, payment_info: str) -> Developer:
         developer = Developer(
             id=developer_id,
             user_id=user_id,
-            payment_info=payment_info,
-            created_at=created_at,
-            updated_at=updated_at
+            payment_info=payment_info
         )
         return self.developer_repository.update(developer)
     

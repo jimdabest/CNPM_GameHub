@@ -29,7 +29,7 @@ class RedeemRepository(IRedeemRepository):
             self.session.rollback()
             raise ValueError('Redeem creation failed')
         finally:
-            pass
+            self.session.close()
 
     def get_by_id(self, redeem_id: int) -> Optional[RedeemModel]:
         return self.session.query(RedeemModel).filter_by(id=redeem_id).first()
@@ -56,7 +56,7 @@ class RedeemRepository(IRedeemRepository):
             self.session.rollback()
             raise ValueError('Redeem update failed')
         finally:
-            pass
+            self.session.close()
 
     def delete(self, redeem_id: int) -> None:
         try:
@@ -70,4 +70,4 @@ class RedeemRepository(IRedeemRepository):
             self.session.rollback()
             raise ValueError('Redeem not found')
         finally:
-            pass
+            self.session.close()

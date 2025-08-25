@@ -19,7 +19,7 @@ class RedeemService:
         
         # Trừ points của player
         if self.player_service:
-            self.player_service.deduct_points(player_id, points_used)
+            self.player_service.deduct_point(player_id, points_used)
         
         # Giảm quantity của reward
         if self.reward_service:

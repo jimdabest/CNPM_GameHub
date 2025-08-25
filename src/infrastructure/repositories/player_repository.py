@@ -17,7 +17,7 @@ class PlayerRepository(IPlayerRepository):
             player_model = PlayerModel(
                 user_id=player.user_id,
                 scores=player.scores,
-                point=player.points,  # Note: PlayerModel uses 'point' not 'points'
+                point=player.point,  # Note: PlayerModel uses 'point'
             )
             self.session.add(player_model)
             self.session.commit()
@@ -27,7 +27,7 @@ class PlayerRepository(IPlayerRepository):
             self.session.rollback()
             raise ValueError('Player creation failed')
         finally:
-            pass
+            self.session.close()
 
     def get_by_id(self, player_id: int) -> Optional[PlayerModel]:
         return self.session.query(PlayerModel).filter_by(id=player_id).first()
@@ -43,7 +43,7 @@ class PlayerRepository(IPlayerRepository):
                 id=player.id,
                 user_id=player.user_id,
                 scores=player.scores,
-                point=player.points,  # Note: PlayerModel uses 'point' not 'points'
+                point=player.point,  # Note: PlayerModel uses 'point'
             )
             self.session.merge(player_model)
             self.session.commit()
@@ -52,7 +52,8 @@ class PlayerRepository(IPlayerRepository):
             self.session.rollback()
             raise ValueError('Player update failed')
         finally:
-            pass
+            self.session.close()
+
 
     def delete(self, player_id: int) -> None:
         try:
@@ -66,4 +67,4 @@ class PlayerRepository(IPlayerRepository):
             self.session.rollback()
             raise ValueError('Player not found')
         finally:
-            pass
+            self.session.close()

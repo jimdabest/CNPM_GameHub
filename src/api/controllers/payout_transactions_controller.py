@@ -1,15 +1,15 @@
 from flask import Blueprint, request, jsonify
 from services.payout_transactions_service import PayoutTransactionService
 from infrastructure.repositories.payout_transactions_repository import PayoutTransactionsRepository
-from api.schemas.payout_transactions import PayoutTransactionRequestSchema, PayoutTransactionResponseSchema
+from api.schemas.payout_transactions import PayoutTransactionsRequestSchema, PayoutTransactionsResponseSchema
 from infrastructure.databases.mssql import session
 from datetime import datetime 
 
 bp = Blueprint('payout_transactions', __name__, url_prefix='/payout-transactions')
 payout_service = PayoutTransactionService(PayoutTransactionsRepository(session))
 
-request_schema = PayoutTransactionRequestSchema()
-response_schema = PayoutTransactionResponseSchema()
+request_schema = PayoutTransactionsRequestSchema()
+response_schema = PayoutTransactionsResponseSchema()
 
 @bp.route('/', methods=['GET'])
 def list_payout_transactions():

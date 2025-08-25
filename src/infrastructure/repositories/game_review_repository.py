@@ -47,7 +47,7 @@ class GameReviewRepository(IGameReviewRepository):
             self.session.merge(model)
             self.session.commit()
             return model
-        except Exception:
+        except Exception as e:
             self.session.rollback()
             raise
         finally:

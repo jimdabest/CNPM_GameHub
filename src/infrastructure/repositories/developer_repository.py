@@ -12,9 +12,7 @@ class DeveloperRepository:
         try:
             dev = DeveloperModel(
                 user_id=developer.user_id,
-                payment_info=developer.payment_info,
-                created_at=developer.created_at,
-                updated_at=developer.updated_at
+                payment_info=developer.payment_info
             )
             self.session.add(dev)
             self.session.commit()
@@ -34,7 +32,11 @@ class DeveloperRepository:
 
     def update(self, developer: DeveloperModel) -> DeveloperModel:
         try:
-            self.session.merge(developer)
+            dev = DeveloperModel(
+                user_id=developer.user_id,
+                payment_info=developer.payment_info
+            )
+            self.session.merge(dev)
             self.session.commit()
             return developer
         except Exception as e:

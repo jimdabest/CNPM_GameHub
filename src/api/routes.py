@@ -8,6 +8,11 @@ from src.api.controllers.apiaccess_controller import bp as apiaccess_bp
 from src.api.controllers.leaderboard_controller import bp as leaderboard_bp
 from src.api.controllers.payout_transactions_controller import bp as payout_transactions_bp
 from src.api.controllers.admin_controller import bp as admin_bp 
+from src.api.controllers.game_review_controller import bp as game_review_bp
+from src.api.controllers.game_controller import bp as game_bp
+from src.api.controllers.player_controller import bp as player_bp
+from src.api.controllers.reward_controller import bp as reward_bp
+from src.api.controllers.redeem_controller import bp as redeem_bp
 
 
 
@@ -22,3 +27,8 @@ def register_routes(app):
     app.register_blueprint(leaderboard_bp)
     app.register_blueprint(payout_transactions_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(game_review_bp)
+    app.register_blueprint(game_bp)
+    app.register_blueprint(player_bp)
+    app.register_blueprint(reward_bp)
+    app.register_blueprint(redeem_bp)
