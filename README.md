@@ -10,7 +10,8 @@
 ![Developer Usecase](./docs/Dg/Developer%20Usecase.svg)
 ### Chức năng Admin
 ![Admin Usecase](./docs/Dg/sơ%20đồ%20hoạt%20động%20của%20admin.svg)
-
+### Chức năng Guest
+![Guest Usecase](./docs/Dg/GuestUseCase.svg)
 
 ## Sơ đồ hoạt động (Activity Diagram)
 
@@ -63,6 +64,16 @@
 ### Quy trình Quản lý báo cáo, thống kê hệ thống
 ![ActivityAdminManagentReport](./docs/Dg/ActivityAdminManagentReport.svg)
 
+### Quy trình xem danh sách mini game có sẵn
+![GuestActList](./docs/Dg/GuestActLists.svg)
+### Quy trình chơi thử mini game (không cần đăng nhập, không có leader board)
+![GuestActTrial](./docs/Dg/GuestActTrial.svg)
+### Quy trình đăng ký tài khoản (Player / Developer / Designer)
+![GuestActRegister](./docs/Dg/GuestActRegister.svg)
+### Quy trình nhập thông tin xác thực để trở thành Developer hoặc Designer hoặc cả hai
+![GuestActVerify](./docs/Dg/GuestActVerify.svg)
+
+
 ## Sơ đồ luồng xử lý (Sequence Diagram)
 
 ### Luồng xử lý đăng nhập của Player
@@ -107,3 +118,12 @@
 ![SeqAdminManagentRewardpolicy](./docs/Dg/SeqAdminManagentRewardpolicy.svg)
 ### Quy trình Quản lý báo cáo, thống kê hệ thống
 ![SeqAdminManagentReport](./docs/Dg/SeqAdminManagentReport.svg)
+
+### Luồng xử lý xem danh sách mini game có sẵn
+![SeqGuestList.svg](./docs/Dg/SeqGuestList.svg)
+### Luồng xử lý chơi thử mini game (không cần đăng nhập, không có leader board)
+![SeqGuestTrial.svg](./docs/Dg/SeqGuestTrial.svg)
+### Luồng xử lý đăng ký tài khoản (Player / Developer / Designer)
+![SeqGuestRegister.svg](./docs/Dg/SeqGuestRegister.svg)
+### Luồng xử lý nhập thông tin xác thực để trở thành Developer hoặc Designer hoặc cả hai
+![SeqGuestVerify.svg](./docs/Dg/SeqGuestVerify.svg)
