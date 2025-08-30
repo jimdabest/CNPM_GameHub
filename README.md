@@ -8,7 +8,8 @@
 ![Player Usecase.svg](/docs/Dg/Player%20Usecase.svg)
 ### Chức năng Developer
 ![Developer Usecase](./docs/Dg/Developer%20Usecase.svg)
-
+### Chức năng Admin
+![Admin Usecase](./docs/Dg/sơ%20đồ%20hoạt%20động%20của%20admin.svg)
 
 
 ## Sơ đồ hoạt động (Activity Diagram)
@@ -46,6 +47,22 @@
 ### Quy trình Developer quản lý doanh thu từ game (nếu có)
 ![DevRev](/docs/Dg/DevRev.svg)
 
+
+### Quy trình đăng nhập của Admin
+![ActivityAdminLogin](./docs/Dg/ActivityAdminLogin.svg)
+### Quy trình Quản lý User người dùng
+![ActivityAdminManagentUser](./docs/Dg/ActivityAdminManagentUser.svg)
+### Quy trình Quản lý thông tin game (duyệt game mới, kiểm tra nội dung)
+![ActivityAdminManagentGame](./docs/Dg/ActivityAdminManagentGame.svg)
+### Quy trình Quản lý asset (duyệt asset mới, xoá asset vi phạm)
+![ActivityAdminManagentAsset](./docs/Dg/ActivityAdminManagentAsset.svg)
+### Quy trình Quản lý thông tin thanh toán (chi trả cho Developer và Designer)
+![ActivityAdminManagentPayout](./docs/Dg/ActivityAdminManagentPayout.svg)
+### Quy trình Quản lý chính sách tích điểm – đổi quà
+![ActivityAdminManagentRewardpolicy](./docs/Dg/ActivityAdminManagentRewardpolicy.svg)
+### Quy trình Quản lý báo cáo, thống kê hệ thống
+![ActivityAdminManagentReport](./docs/Dg/ActivityAdminManagentReport.svg)
+
 ## Sơ đồ luồng xử lý (Sequence Diagram)
 
 ### Luồng xử lý đăng nhập của Player
@@ -75,3 +92,18 @@
 ![SeqDevManage.svg](/docs/Dg/SeqDevManage.svg)
 ### Luồng xử lý Developer quản lý doanh thu từ game (nếu có)
 ![SeqDevRev.svg](/docs/Dg/SeqDevRev.svg)
+
+### Luồng xử lý đăng nhập của Admin
+![SeqAdminLogin](./docs/Dg/SeqAdminLogin.svg)
+### Quy trình Quản lý User người dùng
+![SeqAdminManagentUser](./docs/Dg/SeqAdminManagentUser.svg)
+### Quy trình Quản lý thông tin game (duyệt game mới, kiểm tra nội dung)
+![SeqAdminManagentGame](./docs/Dg/SeqAdminManagentGame.svg)
+### Quy trình Quản lý asset (duyệt asset mới, xoá asset vi phạm)
+![SeqAdminManagentAsset](./docs/Dg/SeqAdminManagentAsset.svg)
+### Quy trình Quản lý thông tin thanh toán (chi trả cho Developer và Designer)
+![SeqAdminManagentPayout](./docs/Dg/SeqAdminManagentPayout.svg)
+### Quy trình Quản lý chính sách tích điểm – đổi quà
+![SeqAdminManagentRewardpolicy](./docs/Dg/SeqAdminManagentRewardpolicy.svg)
+### Quy trình Quản lý báo cáo, thống kê hệ thống
+![SeqAdminManagentReport](./docs/Dg/SeqAdminManagentReport.svg)
