@@ -4,19 +4,19 @@
 
 ### 1.1 User
 ### 1.2 Player
-![Player Usecase.svg](/CNPM_GameHub/docs/Dg/Player%20Usecase.svg)
+![Player Usecase.svg](/docs/Dg/Player%20Usecase.svg)
 
 
 ## 2. Sơ đồ trình tự (Sequence Diagram)
-![SeqLogin.svg](/CNPM_GameHub/docs/Dg/SeqLogin.svg)
-![SeqPlayGame.svg](/CNPM_GameHub/docs/Dg/SeqPlayGame.svg)
-![SeqRedeem.svg](/CNPM_GameHub/docs/Dg/SeqRedeem.svg)
-![SeqLB.svg](/CNPM_GameHub/docs/Dg/SeqLB.svg)
+![SeqLogin.svg](/docs/Dg/SeqLogin.svg)
+![SeqPlayGame.svg](/docs/Dg/SeqPlayGame.svg)
+![SeqRedeem.svg](/docs/Dg/SeqRedeem.svg)
+![SeqLB.svg](/docs/Dg/SeqLB.svg)
 
 
 ## 3. Sơ đồ hoạt động (Activity Diagram)
 
-![ActLogin.svg](/CNPM_GameHub/docs/Dg/ActLogin.svg)
-![ActPlay.svg](/CNPM_GameHub/docs/Dg/ActPlay.svg)
-![ActRedeem.svg](/CNPM_GameHub/docs/Dg/ActRedeem.svg)
-![ActLB.svg](/CNPM_GameHub/docs/Dg/ActLB.svg)
+![ActLogin.svg](/docs/Dg/ActLogin.svg)
+![ActPlay.svg](/docs/Dg/ActPlay.svg)
+![ActRedeem.svg](/docs/Dg/ActRedeem.svg)
+![ActLB.svg](/docs/Dg/ActLB.svg)
