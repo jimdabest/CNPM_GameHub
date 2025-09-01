@@ -12,7 +12,8 @@
 ![Admin Usecase](./docs/Dg/sơ%20đồ%20hoạt%20động%20của%20admin.svg)
 ### Chức năng Guest
 ![Guest Usecase](./docs/Dg/GuestUseCase.svg)
-
+### Chức năng của Graphic Designer
+![Graphic Designer Usecase](./docs/Dg/UseCase_GD.svg)
 ## Sơ đồ hoạt động (Activity Diagram)
 
 
@@ -73,6 +74,18 @@
 ### Quy trình nhập thông tin xác thực để trở thành Developer hoặc Designer hoặc cả hai
 ![GuestActVerify](./docs/Dg/GuestActVerify.svg)
 
+### Quy trình đăng nhập của Graphic Designer
+![ActivityLoginGraphicDesigner](./docs/Dg/ALogin_GD.svg)
+### Quy trình quản lí danh sách asset của Graphic Designer
+![ActivityManageassetlistGraphicDesigner](./docs/Dg/AManageasset_GD.svg)
+### Quy trình upload asset của Graphic Designer
+![ActivityUploadAsset](./docs/Dg/AUploadAsset_GD.svg)
+### Quy trình đăng kí asset của Graphic Designer
+![ActivityRegisterAssetGraphicDesigner](./docs/Dg/ADKi_GD.svg)
+### Quy trình quản lý tài khoản cá nhân 
+![ActivityManageMyAccoutGraphicDesigner](./docs/Dg/Amanagemyacccout_GD.svg)
+### Quy trình theo dõi doanh thu từ asset
+![ActivityTrackRevenueFromAssetGraphicDesigner](./docs/Dg/ATreackAsset_GD.svg)
 
 ## Sơ đồ luồng xử lý (Sequence Diagram)
 
@@ -127,3 +140,16 @@
 ![SeqGuestRegister.svg](./docs/Dg/SeqGuestRegister.svg)
 ### Luồng xử lý nhập thông tin xác thực để trở thành Developer hoặc Designer hoặc cả hai
 ![SeqGuestVerify.svg](./docs/Dg/SeqGuestVerify.svg)
+
+### Luồng xử lý đăng nhập của Graphic Designer
+![SeqGraphicDesignerLogin](./docs/Dg/SLogin_GD.svg)
+### Luồng xử lý quản lý asset của Graphic Designer
+![SeqGraphicDesignerManageassetlist](./docs/Dg/SManageAsset_GD.svg)
+### Luồng xử lý Upload Asset của Graphic Designer
+![SeqGraphicDesignerUploadAsset](./docs/Dg/SUploadAsset_GD.svg)
+### Luồng xử lý đăng kí Asset của Graphic Designer
+![SeqGraphicDesignerRegisterAsset](./docs/Dg/SRegisterAsset_GD.svg)
+### Luồng xử lý quản lý tài khoản cá nhân của Graphic Designer
+![SeqGraphicDesignerManageMyAccout](./docs/Dg/SMYACCout_GD.svg)
+### Luồng xử lý theo dõi doanh thu từ Asset của Graphic Designer
+![SeqGraphicDesignerTrackrevenue](./docs/Dg/STRack_GD.svg)
