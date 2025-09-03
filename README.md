@@ -1,24 +1,33 @@
 # TÀI LIỆU DỰ ÁN
 
+## Sơ đồ tác nhân
+![SoDoTacNhan](/docs/Dg/SoDoTacNhan.svg)
 ## UserCase 
-<!-- usecase tổng quát sẽ ở đây -->
-### Chức năng User
-<!-- chức năng của user sẽ thêm vào đây -->
+![UseCaseTongThe](/docs/Dg/UseCaseTongThe.svg)
+
+### Chức năng Guest
+![Guest Usecase](./docs/Dg/GuestUseCase.svg)
 ### Chức năng Player
 ![Player Usecase.svg](/docs/Dg/Player%20Usecase.svg)
 ### Chức năng Developer
 ![Developer Usecase](./docs/Dg/Developer%20Usecase.svg)
 ### Chức năng Admin
 ![Admin Usecase](./docs/Dg/sơ%20đồ%20hoạt%20động%20của%20admin.svg)
-### Chức năng Guest
-![Guest Usecase](./docs/Dg/GuestUseCase.svg)
 ### Chức năng của Graphic Designer
 ![Graphic Designer Usecase](./docs/Dg/UseCase_GD.svg)
-## Sơ đồ hoạt động (Activity Diagram)
 
+## Sơ đồ hoạt động (Activity Diagram)
 
 ### Sơ đồ hoạt động 
 
+### Quy trình xem danh sách mini game có sẵn
+![GuestActList](./docs/Dg/GuestActLists.svg)
+### Quy trình chơi thử mini game (không cần đăng nhập, không có leader board)
+![GuestActTrial](./docs/Dg/GuestActTrial.svg)
+### Quy trình đăng ký tài khoản (Player / Developer / Designer)
+![GuestActRegister](./docs/Dg/GuestActRegister.svg)
+### Quy trình nhập thông tin xác thực để trở thành Developer hoặc Designer hoặc cả hai
+![GuestActVerify](./docs/Dg/GuestActVerify.svg)
 
 ### Quy trình đăng nhập của Player
 ![ActLogin.svg](./docs/Dg/ActLogin.svg)
@@ -64,15 +73,6 @@
 ![ActivityAdminManagentRewardpolicy](./docs/Dg/ActivityAdminManagentRewardpolicy.svg)
 ### Quy trình Quản lý báo cáo, thống kê hệ thống
 ![ActivityAdminManagentReport](./docs/Dg/ActivityAdminManagentReport.svg)
-
-### Quy trình xem danh sách mini game có sẵn
-![GuestActList](./docs/Dg/GuestActLists.svg)
-### Quy trình chơi thử mini game (không cần đăng nhập, không có leader board)
-![GuestActTrial](./docs/Dg/GuestActTrial.svg)
-### Quy trình đăng ký tài khoản (Player / Developer / Designer)
-![GuestActRegister](./docs/Dg/GuestActRegister.svg)
-### Quy trình nhập thông tin xác thực để trở thành Developer hoặc Designer hoặc cả hai
-![GuestActVerify](./docs/Dg/GuestActVerify.svg)
 
 ### Quy trình đăng nhập của Graphic Designer
 ![ActivityLoginGraphicDesigner](./docs/Dg/ALogin_GD.svg)
@@ -153,3 +153,9 @@
 ![SeqGraphicDesignerManageMyAccout](./docs/Dg/SMYACCout_GD.svg)
 ### Luồng xử lý theo dõi doanh thu từ Asset của Graphic Designer
 ![SeqGraphicDesignerTrackrevenue](./docs/Dg/STRack_GD.svg)
+
+## Sơ đồ trạng thái 
+![TrangThaiThucThePhienChoi](./docs/Dg/TrangThaiThucThePhienChoi.svg)
+
+## Mô hình kiến trúc
+![MoHinhKienTruc](./docs/Dg/MoHinhKienTruc.svg)
