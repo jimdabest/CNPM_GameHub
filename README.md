@@ -2,7 +2,7 @@
 
 ## Sơ đồ tác nhân
 ![SoDoTacNhan](/docs/Dg/SoDoTacNhan.svg)
-## UserCase 
+## UseCase 
 ![UseCaseTongThe](/docs/Dg/UseCaseTongThe.svg)
 
 ### Chức năng Guest
@@ -20,13 +20,13 @@
 
 ### Sơ đồ hoạt động 
 
-### Quy trình xem danh sách mini game có sẵn
+### Quy trình xem danh sách mini game có sẵn của Guest
 ![GuestActList](./docs/Dg/GuestActLists.svg)
-### Quy trình chơi thử mini game (không cần đăng nhập, không có leader board)
+### Quy trình chơi thử mini game (không cần đăng nhập, không có leader board) của Guest
 ![GuestActTrial](./docs/Dg/GuestActTrial.svg)
-### Quy trình đăng ký tài khoản (Player / Developer / Designer)
+### Quy trình đăng ký tài khoản (Player / Developer / Designer) của Guest
 ![GuestActRegister](./docs/Dg/GuestActRegister.svg)
-### Quy trình nhập thông tin xác thực để trở thành Developer hoặc Designer hoặc cả hai
+### Quy trình nhập thông tin xác thực để trở thành Developer hoặc Designer hoặc cả hai của Guest
 ![GuestActVerify](./docs/Dg/GuestActVerify.svg)
 
 ### Quy trình đăng nhập của Player
@@ -155,7 +155,19 @@
 ![SeqGraphicDesignerTrackrevenue](./docs/Dg/STRack_GD.svg)
 
 ## Sơ đồ trạng thái 
+
+### Tài khoản User
+![UserAccount](/docs/Dg/UserAccount.svg)
+### Game
+![Game](/docs/Dg/Game.svg)
+### Phiên chơi game
 ![TrangThaiThucThePhienChoi](./docs/Dg/TrangThaiThucThePhienChoi.svg)
+### Asset (Designer)
+![AssetDesigner](/docs/Dg/AssetDesigner.svg)
+### Payment Transaction
+![PaymentTransaction](/docs/Dg/PaymentTransaction.svg)
+### Reward & Redemption
+![RewardAndRedemption](/docs/Dg/RewardAndRedemption.svg)
 
 ## Mô hình kiến trúc
 ![MoHinhKienTruc](./docs/Dg/MoHinhKienTruc.svg)
